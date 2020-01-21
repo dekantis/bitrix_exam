@@ -6,3 +6,8 @@ $arTemplateParameters["SET_SPECIALDATE"] = array(
 	"TYPE" => "CHECKBOX",
 	"DEFAULT" => "N",
 );
+$arTemplateParameters["ID_IBLOCK_CANONICAL"] = array(
+	"NAME" => GetMessage("ID_IBLOCK_CANONICAL"),
+	"TYPE" => "STRING",
+	"DEFAULT" => "",
+);

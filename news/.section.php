@@ -1,5 +1,5 @@
 <?
 $arDirProperties = Array(
-   "SPECIALDATE" => "101"
+   "SPECIALDATE" => "100"
 );
 ?>

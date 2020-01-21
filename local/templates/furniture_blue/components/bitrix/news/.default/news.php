@@ -106,4 +106,5 @@ $this->setFrameMode(true);
         "SET_SPECIALDATE" => $arParams["SET_SPECIALDATE"],
 	),
 	$component
-);?>
+);
+?>

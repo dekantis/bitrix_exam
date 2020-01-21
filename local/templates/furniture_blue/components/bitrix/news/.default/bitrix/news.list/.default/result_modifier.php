@@ -5,4 +5,3 @@ if (!empty($arParams["SET_SPECIALDATE"]) && $arParams["SET_SPECIALDATE"] == "Y")
 }
 
 
-
