@@ -17,6 +17,7 @@ while($ob = $res->GetNextElement())
         break;
     }
 }
+?>
 
 
 
