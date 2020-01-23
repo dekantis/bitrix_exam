@@ -1,21 +1,16 @@
 <?php
+session_start();
 
-AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("Changer", "OnBeforeIBlockElementUpdateHandler"));
+$path = "/local/php_interface/classes/";
+CModule::AddAutoloadClasses(
+    '', //
+    array(
+        // ключ - имя класса, значение - путь относительно корня сайта к файлу с классом
+        "ChangerClass" => $path . "iblock/ChangerClass.php",
+        "ErrorChekerClass" => $path . "main/ErrorChekerClass.php"
+    )
+);
 
-class Changer
-{
-    function OnBeforeIBlockElementUpdateHandler(&$arFields)
-    {
-        if ($arFields["IBLOCK_ID"] == 2 && $arFields["ACTIVE"] == "N") {
-            var_dump($arFields["ID"]);//id элемента
-            $res = CIBlockElement::GetByID($arFields["ID"]);
-            $ar_res = $res->GetNext(false, false);
-            $count = $ar_res["SHOW_COUNTER"];
-            if ($count > 2) {
-                global $APPLICATION;
-                $APPLICATION->throwException("Товар невозможно деактивировать, у него $count просмотров");
-                return false;
-            }
-        }
-    }
-}
+AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", Array("ChangerClass", "OnBeforeIBlockElementUpdateHandler"));
+AddEventHandler("main", "OnAfterEpilog", Array("ErrorChekerClass", "check404error"));
+
