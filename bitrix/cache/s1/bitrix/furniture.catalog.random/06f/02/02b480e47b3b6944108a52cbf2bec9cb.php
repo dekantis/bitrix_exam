@@ -1,7 +1,7 @@
 <?
 if($INCLUDE_FROM_CACHE!='Y')return false;
-$datecreate = '001579517332';
-$dateexpire = '001579517512';
+$datecreate = '001580135821';
+$dateexpire = '001580136001';
 $ser_content = 'a:2:{s:7:"CONTENT";s:429:"<div class="special-product">
 	<div class="special-product-title"><a href="/products/2/19/">Президент</a></div>
 	<div class="special-product-image"><a href="/products/2/19/"><img border="0" src="/upload/iblock/ce3/ce3c0168c55c66a4a968f30125f00391.jpg" width="54" height="75" alt="Президент" title="Президент" /></a></div>
