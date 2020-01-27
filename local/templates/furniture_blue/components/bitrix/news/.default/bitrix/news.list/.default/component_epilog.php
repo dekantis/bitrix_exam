@@ -1,4 +1,5 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-if (!empty($arResult["ITEMS"])) {
-    $APPLICATION->SetPageProperty("SPECIALDATE", $arResult["ITEMS"][0]["ACTIVE_FROM"]);
+if (!empty($arResult["ITEM_ACTIVE_FROM"])) {
+
+    $APPLICATION->SetPageProperty("SPECIALDATE", $arResult["ITEM_ACTIVE_FROM"]);
 }

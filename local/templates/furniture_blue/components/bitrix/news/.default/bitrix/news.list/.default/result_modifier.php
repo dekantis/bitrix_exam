@@ -2,7 +2,9 @@
 
 if (!empty($arParams["SET_SPECIALDATE"]) && $arParams["SET_SPECIALDATE"] == "Y") {
     $cp = $this->__component;
-    $cp->SetResultCacheKeys(array("ITEMS"));
+    echo "<pre>";
+    $arResult["ITEM_ACTIVE_FROM"] = $arResult["ITEMS"][0]["ACTIVE_FROM"];
+    $cp->SetResultCacheKeys(array("ITEM_ACTIVE_FROM"));
 }
 
 
