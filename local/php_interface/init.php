@@ -1,6 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
-AddEventHandler("main", "OnAfterEpilog", Array("ErrorChekerClass", "check404error"));
+AddEventHandler("main", "OnAfterEpilog", "check404error");
 
 function check404error()
 {
