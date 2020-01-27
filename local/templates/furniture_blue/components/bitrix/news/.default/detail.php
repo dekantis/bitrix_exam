@@ -36,8 +36,6 @@
 		"ELEMENT_ID" => $arResult["VARIABLES"]["ELEMENT_ID"],
 		"ELEMENT_CODE" => $arResult["VARIABLES"]["ELEMENT_CODE"],
 		"IBLOCK_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["news"],
-
-        "SET_SPECIALDATE" => $arParams["SET_SPECIALDATE"],
 	),
 	$component
 );?>

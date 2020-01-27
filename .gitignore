@@ -1,0 +1,14 @@
+/bitrix/cache/*
+/bitrix/components/*
+/bitrix/js/*
+/bitrix/images/*
+/bitrix/css/*
+/bitrix/gadgets/*
+/bitrix/image_uploader/*
+/bitrix/managed_cache/*
+/bitrix/modules/*
+/bitrix/sounds/*
+/bitrix/tmp/*
+/bitrix/tools/*
+/bitrix/wizards/*
+/upload/*
