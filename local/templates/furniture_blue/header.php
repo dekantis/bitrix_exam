@@ -24,9 +24,6 @@
 		
 	</style>
 	<![endif]-->
-
-    <meta property="specialdate"
-          content="<?$APPLICATION->ShowProperty("SPECIALDATE") ?>" />
 	<title><?$APPLICATION->ShowTitle();        ?></title>
 </head>
 <body>
