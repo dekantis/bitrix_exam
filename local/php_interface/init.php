@@ -30,11 +30,7 @@ function setMetaFromIblockMeta()
         );
 
         while($arMetaProps = $metaProps->Fetch()) {
-            if (!empty($arMetaProps["NAME"]) && $arMetaProps["NAME"] == "title")
-            {
-                $APPLICATION->SetTitle($arMetaProps["VALUE"]);
-            }
-            elseif (!empty($arMetaProps["NAME"]))
+            if (!empty($arMetaProps["NAME"]))
             {
                 $APPLICATION->SetPageProperty($arMetaProps["NAME"], $arMetaProps["VALUE"]);
             }
