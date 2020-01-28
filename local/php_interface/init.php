@@ -3,27 +3,41 @@ AddEventHandler("main", "OnEpilog", "setMetaFromIblockMeta");
 
 function setMetaFromIblockMeta()
 {
+    $IBLOCK_META = 7;
     global $APPLICATION;
+
     CModule::IncludeModule("iblock");
-    $arFilter = Array("IBLOCK_ID" => 7);
-    $arSelect = array("fields");
-    $res = CIBlockElement::GetList(array("SORT" => "ASC"), $arFilter, false,false);
-    while($ob = $res->GetNextElement())
+    $arFilter = Array(
+        "IBLOCK_ID" => $IBLOCK_META,
+        "NAME" => $APPLICATION->GetCurUri(),
+    );
+    $arSelect = array("ID", "NAME");
+
+    $res = CIBlockElement::GetList(
+        array(),
+        $arFilter,
+        false,
+        false,
+        $arSelect
+    );
+
+    if($ob = $res->GetNext())
     {
-        $arCanonicalFields = $ob->GetFields();
-        if ($APPLICATION->GetCurUri() == $arCanonicalFields["NAME"])
-        {
-            $arCanonicalProperties = $ob->GetProperties();
-            foreach ($arCanonicalProperties as $key=>$arCanonicalProperty) {
-                if($arCanonicalProperties[$key]["NAME"] == "title" && !empty($arCanonicalProperties[$key]["VALUE"]))
-                {
-                    $APPLICATION->SetTitle($arCanonicalProperties[$key]["VALUE"]);
-                } elseif(!empty($arCanonicalProperties[$key]["NAME"]) && !empty($arCanonicalProperties[$key]["VALUE"]))
-                {
-                    $APPLICATION->SetPageProperty($arCanonicalProperties[$key]["NAME"], $arCanonicalProperties[$key]["VALUE"]);
-                }
+        $metaProps = CIBlockElement::GetProperty(
+            $IBLOCK_META,
+            $ob["ID"],
+            array()
+        );
+
+        while($arMetaProps = $metaProps->Fetch()) {
+            if (!empty($arMetaProps["NAME"]) && $arMetaProps["NAME"] == "title")
+            {
+                $APPLICATION->SetTitle($arMetaProps["VALUE"]);
             }
-            break;
+            elseif (!empty($arMetaProps["NAME"]))
+            {
+                $APPLICATION->SetPageProperty($arMetaProps["NAME"], $arMetaProps["VALUE"]);
+            }
         }
     }
 }
