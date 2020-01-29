@@ -31,12 +31,20 @@ class SimpleComponent extends CBitrixComponent
     protected function getSectionsList ()
     {
         $arFilter = array("IBLOCK_ID" => $this->arParams["IBLOCK_PRODUCTS_ID"]);
-        $object = CIBlockSection::GetList(false, $arFilter,false, array($this->arParams["SECTIONS_USER_FIELDS_CODE"], "ID", "NAME"));
+        $object = CIBlockSection::GetList(
+            false,
+            $arFilter,
+            false,
+            array($this->arParams["SECTIONS_USER_FIELDS_CODE"], "ID", "NAME")
+        );
         while($sectionProd = $object->GetNext())
         {
             if(!empty($sectionProd[$this->arParams["SECTIONS_USER_FIELDS_CODE"]]))
             {
-                $this->arFilterSectProdNewsIds = array_merge($sectionProd[$this->arParams["SECTIONS_USER_FIELDS_CODE"]], $this->arFilterSectProdNewsIds);
+                $this->arFilterSectProdNewsIds = array_merge(
+                    $sectionProd[$this->arParams["SECTIONS_USER_FIELDS_CODE"]],
+                    $this->arFilterSectProdNewsIds
+                );
                 $this->filterSectionsID[] = $sectionProd["ID"];
             }
             $arSectionProd[] = $sectionProd;
@@ -49,8 +57,18 @@ class SimpleComponent extends CBitrixComponent
     //Список Новостей
     protected function getNewsList()
     {
-        $arFilter = array("IBLOCK_ID" => $this->arParams["IBLOCK_NEWS_ID"], "ID" => $this->arFilterSectProdNewsIds, "ACTIVE" => "Y");
-        $object = CIBlockElement::GetList(false, $arFilter, false, false, array("ACTIVE_FROM", "ID", "NAME"));
+        $arFilter = array(
+            "IBLOCK_ID" => $this->arParams["IBLOCK_NEWS_ID"],
+            "ID" => $this->arFilterSectProdNewsIds,
+            "ACTIVE" => "Y"
+        );
+        $object = CIBlockElement::GetList(
+            false,
+            $arFilter,
+            false,
+            false,
+            array("ACTIVE_FROM", "ID", "NAME")
+        );
         while ($elemNews = $object->GetNext()) {
             foreach ($this->arResult["SECTIONS"] as $section) {
                 if (in_array($elemNews["ID"], $section[$this->arParams["SECTIONS_USER_FIELDS_CODE"]])) {
@@ -113,7 +131,6 @@ class SimpleComponent extends CBitrixComponent
     public function executeComponent()
     {
         if ($this->startResultCache()) {
-//            $this->arResult["DATE"] = $this->showDate($this->arParams["TEMPLATE_FOR_DATE"]);
             $this->arResult["SECTIONS"] = $this->getSectionsList();
             $this->arResult["NEWS"] = $this->getNewsList();
             $this->arResult["PRODUCTS"] = $this->getProductsList();
