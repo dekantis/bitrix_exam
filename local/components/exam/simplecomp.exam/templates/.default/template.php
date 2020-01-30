@@ -9,7 +9,7 @@ foreach ($arResult["NEWS"] as $news)
     foreach ($arResult["PRODUCTS"] as $elem)
     {
         if (in_array($elem["IBLOCK_SECTION_ID"], $news["SECTIONS_ID"]))
-            echo "<ul><li>{$elem["NAME"]} - {$elem["PRICE"]} - {$elem["MATERIAL"]} - {$elem["ARTICULE"]}</li></ul>";
+            echo "<ul><li>{$elem["NAME"]} - {$elem["PROPERTY_PRICE_VALUE"]} - {$elem["PROPERTY_MATERIAL_VALUE"]} - {$elem["PROPERTY_ARTNUMBER_VALUE"]}</li></ul>";
     }
     echo "</li>";
 }echo "</ul>";

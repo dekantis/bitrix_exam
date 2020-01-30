@@ -4,14 +4,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 class SimpleComponent extends CBitrixComponent
 {
 
-    CONST ELEM_PROPERIES = array(
-        "PRICE" => 2,
-        "MATERIAL" => 7,
-        "ARTICULE" => 6
-    );
     protected $arFilterSectProdNewsIds = [];
     protected $filterSectionsID;
-    protected $filterElemsID;
 
     public function onPrepareComponentParams($arParams)
     {
@@ -90,36 +84,19 @@ class SimpleComponent extends CBitrixComponent
             "IBLOCK_SECTION_ID" => $this->filterSectionsID,
             'ACTIVE' => 'Y'
         );
+        $arSelect = array("ID","NAME", "IBLOCK_SECTION_ID", "PROPERTY_PRICE", "PROPERTY_MATERIAL", "PROPERTY_ARTNUMBER");
         $object = CIBlockElement::GetList(
             false,
             $arFilter,
             false,
             false,
-            array("ID","NAME", "IBLOCK_SECTION_ID")
+            $arSelect
         );
         while($elemProd = $object->GetNext())
         {
             $arElemProds[] = $elemProd;
-            $this->filterElemsID[] = $elemProd["ID"];
         }
-
         return $arElemProds;
-    }
-
-    //Вывод списка свойств товаров
-    protected function setProductsProperties()
-    {
-        $object = CIBlockElement::GetPropertyValues($this->arParams["IBLOCK_PRODUCTS_ID"], array("ID" => $this->filterElemsID));
-        while ($elemProperties = $object->GetNext())
-        {
-            $arProperties[] = $elemProperties;
-        }
-        foreach ($this->arResult["PRODUCTS"] as $key=>&$elem)
-        {
-            $elem["PRICE"] = $arProperties[$key][self::ELEM_PROPERIES["PRICE"]];
-            $elem["MATERIAL"] = $arProperties[$key][self::ELEM_PROPERIES["MATERIAL"]];
-            $elem["ARTICULE"] = $arProperties[$key][self::ELEM_PROPERIES["ARTICULE"]];
-        }
     }
 
     protected function setCatalogTitle($count)
@@ -135,7 +112,6 @@ class SimpleComponent extends CBitrixComponent
             $this->arResult["NEWS"] = $this->getNewsList();
             $this->arResult["PRODUCTS"] = $this->getProductsList();
             $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
-            $this->setProductsProperties();
             $this->includeComponentTemplate();
         }
         return $this->arResult;
