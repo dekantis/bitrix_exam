@@ -4,15 +4,18 @@ AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementU
 
 function OnBeforeIBlockElementUpdateHandler(&$arFields)
 {
-    if ($arFields["IBLOCK_ID"] == 2 && $arFields["ACTIVE"] == "N") {
-        var_dump($arFields["ID"]);//id элемента
-        $res = CIBlockElement::GetByID($arFields["ID"]);
-        $ar_res = $res->GetNext(false, false);
-        $count = $ar_res["SHOW_COUNTER"];
-        if ($count > 2) {
-            global $APPLICATION;
-            $APPLICATION->throwException("Товар невозможно деактивировать, у него $count просмотров");
-            return false;
+    if ($arFields["IBLOCK_ID"] == 2 && $arFields["ACTIVE"] == "N")
+    {
+        $arSelect = Array("SHOW_COUNTER");
+        $arFilter = Array("IBLOCK_ID"=>2, "ID" => $arFields["ID"]);
+        $object = CIBlockElement::GetList(false, $arFilter, false,false, $arSelect);
+        if($product = $object->GetNext())
+        {
+            if($product["SHOW_COUNTER"] > 2) {
+                global $APPLICATION;
+                $APPLICATION->throwException("Товар невозможно деактивировать, у него {$product["SHOW_COUNTER"]} просмотров");
+                return false;
+            }
         }
     }
 }
