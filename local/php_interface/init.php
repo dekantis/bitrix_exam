@@ -11,9 +11,9 @@ function setMetaFromIblockMeta()
         "IBLOCK_ID" => $IBLOCK_META,
         "NAME" => $APPLICATION->GetCurUri(),
     );
-    $arSelect = array("ID", "NAME");
+    $arSelect = array("ID", "NAME", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION");
 
-    $res = CIBlockElement::GetList(
+    $object = CIBlockElement::GetList(
         array(),
         $arFilter,
         false,
@@ -21,19 +21,9 @@ function setMetaFromIblockMeta()
         $arSelect
     );
 
-    if($ob = $res->GetNext())
+    if($elem = $object->GetNext())
     {
-        $metaProps = CIBlockElement::GetProperty(
-            $IBLOCK_META,
-            $ob["ID"],
-            array()
-        );
-
-        while($arMetaProps = $metaProps->Fetch()) {
-            if (!empty($arMetaProps["NAME"]))
-            {
-                $APPLICATION->SetPageProperty($arMetaProps["NAME"], $arMetaProps["VALUE"]);
-            }
-        }
+        $APPLICATION->SetTitle($elem["PROPERTY_TITLE_VALUE"]);
+        $APPLICATION->SetPageProperty("description", $elem["PROPERTY_DESCRIPTION_VALUE"]);
     }
 }
