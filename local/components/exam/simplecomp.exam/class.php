@@ -1,5 +1,4 @@
 <?php
-
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 class SimpleComponent extends CBitrixComponent
@@ -17,14 +16,15 @@ class SimpleComponent extends CBitrixComponent
             "IBLOCK_MANUFACTURER_ID" => $arParams["IBLOCK_MANUFACTURER_ID"],
             "TEMPLATE_DETAIL_VIEW_LINK" => $arParams["TEMPLATE_DETAIL_VIEW_LINK"],
             "PRODUCT_PROPERTY_CODE" => $arParams["PRODUCT_PROPERTY_CODE"],
-
         );
+
         return $result;
     }
 
     //Список производителей
     protected function getManufacturersList()
     {
+        CModule::includeModule("iblock");
         $arFilter = array(
             "IBLOCK_ID" => $this->arParams["IBLOCK_MANUFACTURER_ID"],
             "ACTIVE" => "Y"
@@ -46,6 +46,7 @@ class SimpleComponent extends CBitrixComponent
     //Список товаров
     protected function getProductsList()
     {
+        CModule::includeModule("iblock");
         $arFilter = array(
             "IBLOCK_ID" => $this->arParams["IBLOCK_PRODUCTS_ID"],
             'ACTIVE' => 'Y',
@@ -84,12 +85,11 @@ class SimpleComponent extends CBitrixComponent
                 $arElemProds[$i] = $elemProd;
                 $arElemProds[$i]["PROPERTY_FIRMS_IDS"][] = $elemProd["PROPERTY_".$this->arParams["PRODUCT_PROPERTY_CODE"]."_ID"];
 
-                $this->arParams["TEMPLATE_DETAIL_VIEW_LINK"] = str_replace(
+                $arElemProds[$i]["TEMPLATE_DETAIL_VIEW_LINK"] = str_replace(
                     array("#SECTION_CODE#","#ELEMENT_ID#"),
                     array($elemProd["IBLOCK_SECTION_ID"], $elemProd["ID"]),
                     $this->arParams["TEMPLATE_DETAIL_VIEW_LINK"]
                 );
-                $arElemProds[$i]["TEMPLATE_DETAIL_VIEW_LINK"] = $this->arParams["TEMPLATE_DETAIL_VIEW_LINK"];
             }
             if (!empty($elemProd["PROPERTY_".$this->arParams["PRODUCT_PROPERTY_CODE"]."_ID"]) &&
                 !in_array($elemProd["PROPERTY_".$this->arParams["PRODUCT_PROPERTY_CODE"]."_ID"], $this->manufacturerLinksIds))
@@ -108,12 +108,13 @@ class SimpleComponent extends CBitrixComponent
 
     public function executeComponent()
     {
+
         if ($this->startResultCache()) {
             $this->arResult["MANUFACTURERS"] = $this->getManufacturersList();
             $this->arResult["PRODUCTS"] = $this->getProductsList();
-            $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
             $this->includeComponentTemplate();
         }
+        $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
         return $this->arResult;
     }
 }
