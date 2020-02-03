@@ -5,12 +5,13 @@ AddEventHandler("main", "OnBeforeEventAdd", "SetAuthorMacros");
 
 function SetAuthorMacros(&$event, &$lid, &$arFields)
 {
+    global $USER;
     $arFields["AUTHOR_NAME"] = $arFields["AUTHOR"];
-    $arFields["AUTHOR"] = !CUser::IsAuthorized() ?
+    $arFields["AUTHOR"] = $USER->IsAuthorized() ?
         "Пользователь не авторизован, данные из формы: " . $arFields["AUTHOR_NAME"] :
         "Пользователь авторизован: ".
-        CUser::GetID() . "( ". CUser::GetLogin() .
-        " ) ".CUser::GetFirstName().", данные из формы:" . $arFields["AUTHOR_NAME"];
+        $USER->GetID() . "( ". $USER->GetLogin() .
+        " ) ".$USER->GetFirstName().", данные из формы:" . $arFields["AUTHOR_NAME"];
 
     var_dump($arFields);
 
