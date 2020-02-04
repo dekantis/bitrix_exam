@@ -27,7 +27,7 @@ class SimpleComponent extends CBitrixComponent
         $arFilter = array(
             "IBLOCK_ID" => $this->arParams["IBLOCK_PRODUCTS_ID"]
         );
-        $arSelect = array($this->arParams["SECTIONS_USER_FIELDS_CODE"], "ID", "NAME", "IBLOCK_ID", "IBLOCK_TYPE_ID");
+        $arSelect = array($this->arParams["SECTIONS_USER_FIELDS_CODE"], "ID", "NAME");
         $object = CIBlockSection::GetList(
             false,
             $arFilter,
@@ -49,15 +49,6 @@ class SimpleComponent extends CBitrixComponent
         }
         $this->arFilterSectProdNewsIds = array_unique($this->arFilterSectProdNewsIds);
 
-        $currentIblockId = current($arSectionProd)["IBLOCK_ID"];
-        $currentIblockType = current($arSectionProd)["IBLOCK_TYPE_ID"];
-        $this->AddIncludeAreaIcon(
-            array(
-                'URL'   => "/bitrix/admin/iblock_element_admin.php?IBLOCK_ID={$currentIblockId}&type={$currentIblockType}",
-                'TITLE' => "ИБ в админке",
-                "IN_PARAMS_MENU" => true,
-            )
-        );
         return $arSectionProd;
     }
 
@@ -124,6 +115,13 @@ class SimpleComponent extends CBitrixComponent
         if (!\Bitrix\Main\Loader::includeModule("iblock")) return false;
         if($this->startResultCache()) {
             $this->arResult["SECTIONS"] = $this->getSectionsList();
+            $this->AddIncludeAreaIcon(
+                array(
+                    'URL'   => "/bitrix/admin/iblock_element_admin.php?IBLOCK_ID={$this->arParams["IBLOCK_PRODUCTS_ID"]}&type=products",
+                    'TITLE' => "ИБ в админке",
+                    "IN_PARAMS_MENU" => true,
+                )
+            );
             $this->arResult["NEWS"] = $this->getNewsList();
             $this->arResult["PRODUCTS"] = $this->getProductsList();
             $this->includeComponentTemplate();
