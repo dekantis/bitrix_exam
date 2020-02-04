@@ -31,10 +31,17 @@ $aMenuLinks = Array(
 	),
 	Array(
 		"Контакты", 
-		"contacts/", 
+		"contacts/",
 		Array(), 
 		Array(), 
 		"" 
+	),
+    Array(
+		"Экзамен2",
+		"/ex2/simplecomp/",
+		Array(),
+		Array(),
+		""
 	)
 );
 ?>
