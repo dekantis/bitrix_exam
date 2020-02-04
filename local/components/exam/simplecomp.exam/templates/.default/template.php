@@ -1,7 +1,7 @@
 <?php
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
-
+echo "Фильтр <a href='/ex2/simplecomp/?F=Y'>/ex2/simplecomp/?F=Y</a><br>";
 echo "<strong>Каталог</strong><ul>";
 foreach ($arResult["NEWS"] as $news)
 {

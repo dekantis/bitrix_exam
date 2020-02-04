@@ -119,15 +119,23 @@ class SimpleComponent extends CBitrixComponent
 
     public function executeComponent()
     {
+        if ($_GET["F"] == "Y")
+        {
+            $this->clearResultCache();
 
-            if($this->startResultCache()) {
-                if ($_GET["F"] == "Y") $this->abortResultCache();
-                $this->arResult["SECTIONS"] = $this->getSectionsList();
-                $this->arResult["NEWS"] = $this->getNewsList();
-                $this->arResult["PRODUCTS"] = $this->getProductsList();
-                $this->includeComponentTemplate();
+        }
+        if($this->startResultCache()) {
+            if ($_GET["F"] == "Y")
+            {
+                $this->abortResultCache();
+
             }
-            $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
+            $this->arResult["SECTIONS"] = $this->getSectionsList();
+            $this->arResult["NEWS"] = $this->getNewsList();
+            $this->arResult["PRODUCTS"] = $this->getProductsList();
+            $this->includeComponentTemplate();
+        }
+        $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
 
 
         return $this->arResult;
