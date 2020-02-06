@@ -1,9 +1,9 @@
 <?php
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
+
 class SimpleComponent extends CBitrixComponent
 {
-
     protected $arFilterSectProdNewsIds = [];
     protected $filterSectionsID;
 
@@ -14,8 +14,8 @@ class SimpleComponent extends CBitrixComponent
             "CACHE_TIME" => isset($arParams["CACHE_TIME"]) ? $arParams["CACHE_TIME"] : 36000000,
             "IBLOCK_PRODUCTS_ID" => $arParams["IBLOCK_PRODUCTS_ID"],
             "IBLOCK_NEWS_ID" => $arParams["IBLOCK_NEWS_ID"],
-            "SECTIONS_USER_FIELDS_CODE" => $arParams["SECTIONS_USER_FIELDS_CODE"]
-
+            "SECTIONS_USER_FIELDS_CODE" => $arParams["SECTIONS_USER_FIELDS_CODE"],
+            "NAV_PAGE_COUNT" => $arParams["NAV_PAGE_COUNT"]
         );
         return $result;
     }
@@ -60,14 +60,22 @@ class SimpleComponent extends CBitrixComponent
             "ID" => $this->arFilterSectProdNewsIds,
             "ACTIVE" => "Y"
         );
+        $arNavParams = array(
+            "nPageSize" => $this->arParams["NAV_PAGE_COUNT"],   // количество элементов на странице
+            "bDescPageNumbering" => "Описание",
+            "bShowAll" => true,
+        );
         $arSelect = array("ACTIVE_FROM", "ID", "NAME");
         $object = CIBlockElement::GetList(
             false,
             $arFilter,
             false,
-            false,
+            $arNavParams,
             $arSelect
         );
+        $this->arResult["NAV_STRING"] = $object->GetPageNavStringEx(
+            $navComponentObject, "Странички", "", "N"
+        );;
         while ($elemNews = $object->GetNext()) {
             foreach ($this->arResult["SECTIONS"] as $section) {
                 if (in_array($elemNews["ID"], $section[$this->arParams["SECTIONS_USER_FIELDS_CODE"]])) {
@@ -77,7 +85,6 @@ class SimpleComponent extends CBitrixComponent
             }
             $arNews[] = $elemNews;
         }
-
         return $arNews;
     }
 
@@ -113,13 +120,13 @@ class SimpleComponent extends CBitrixComponent
     public function executeComponent()
     {
         if (!\Bitrix\Main\Loader::includeModule("iblock")) return false;
-        if($this->startResultCache()) {
+
+        if($this->startResultCache(false, array($_GET["PAGEN_1"], $_GET["SHOWALL_1"]))) {
             $this->arResult["SECTIONS"] = $this->getSectionsList();
             $this->arResult["NEWS"] = $this->getNewsList();
             $this->arResult["PRODUCTS"] = $this->getProductsList();
             $this->includeComponentTemplate();
         }
-
         $this->setCatalogTitle(count($this->arResult["PRODUCTS"]));
         return $this->arResult;
     }

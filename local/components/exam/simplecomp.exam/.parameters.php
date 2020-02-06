@@ -17,6 +17,13 @@ $arComponentParameters = array(
             "MULTIPLE" => "N",
             "DEFAULT" => "2",
         ),
+        "NAV_PAGE_COUNT" => array(
+            "PARENT" => "BASE",
+            "NAME" => GetMessage("NAV_COUNT"),
+            "TYPE" => "STRING",
+            "MULTIPLE" => "N",
+            "DEFAULT" => "2",
+        ),
         "SECTIONS_USER_FIELDS_CODE" => array(
             "PARENT" => "BASE",
             "NAME" => GetMessage("SECTION_USER_FIELD"),
