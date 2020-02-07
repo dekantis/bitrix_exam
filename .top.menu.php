@@ -35,6 +35,13 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"" 
-	)
+	),
+    Array(
+        "Экзамен2",
+        "/ex2/time_control/",
+        Array(),
+        Array(),
+        ""
+    )
 );
 ?>
