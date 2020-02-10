@@ -1,1 +1,0 @@
-<?php $filesInfo = array("/bitrix/components/bitrix/catalog/templates/.default/bitrix/catalog.section.list/.default/style.css" => "15795058226236",); ?>

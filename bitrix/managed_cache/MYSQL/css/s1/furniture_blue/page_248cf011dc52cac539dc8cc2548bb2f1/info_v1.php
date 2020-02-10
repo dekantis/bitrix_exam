@@ -1,1 +1,0 @@
-<?php $filesInfo = array("/local/templates/furniture_blue/components/bitrix/news/.default/bitrix/news.detail/.default/style.css" => "1579506407111",); ?>
