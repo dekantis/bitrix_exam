@@ -80,7 +80,7 @@ $APPLICATION->SetTitle("Новости");
 		"USE_REVIEW" => "N",
 		"USE_RSS" => "N",
 		"USE_SEARCH" => "N",
-		"DISPLAY_AJAX_COMPLAINTS" => "Y",
+		"DISPLAY_AJAX_COMPLAINTS" => "N",
 		"VARIABLE_ALIASES" => array(
 			"SECTION_ID" => "SECTION_ID",
 			"ELEMENT_ID" => "ELEMENT_ID",

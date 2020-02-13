@@ -17,33 +17,9 @@ class AjaxRequest
     }
     private function setComplaint()
     {
-        global $USER;
-        global $DB;
-        $userString = CUser::IsAuthorized() ?
-            "{$USER->GetID()},
-            {$USER->GetLogin()},
-            {$USER->GetFullName()}" :
-            "Не авторизован";
-        $arFields = Array(
-            "IBLOCK_ID" => "9",
-            "NAME" => "Жалоба",
-            "ACTIVE" => "Y",
-            "ACTIVE_FROM" => date($DB->DateFormatToPHP(CSite::GetDateFormat("FULL")), time()),
-            "PROPERTY_VALUES" => Array(
-                "USER" => $userString,
-                "NEWS_LINK" => $this->request,
-            ),
-        );
-        if (\Bitrix\Main\Loader::includeModule("iblock"))
-        {
-            $complaintsObject = new CIBlockElement();
-            $complaint = $complaintsObject->Add($arFields);
-            if ($complaint < 1) {
-                return "<span style=\"color: red\">Ошибка!</span>";
-            } else {
-                return "<span style=\"color: red\">Ваше мнение учтено, №$complaint</span>";
-            }
-        }
+        global $APPLICATION;
+        $APPLICATION->IncludeFile("/local/templates/furniture_blue/components/bitrix/news/.default/bitrix/news.detail/.default/function.php");
+        return templateComplaint($this->request);
     }
 }
 $ajaxRequest = new AjaxRequest($_REQUEST);

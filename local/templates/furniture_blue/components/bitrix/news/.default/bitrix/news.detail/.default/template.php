@@ -1,9 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?
-if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
-{
     ob_start();
-}
 ?>
 <div class="news-detail">
 	<?if($arParams["DISPLAY_PICTURE"]!="N" && is_array($arResult["DETAIL_PICTURE"])):?>
@@ -16,10 +13,11 @@ if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
 		<h3><?=$arResult["NAME"];?></h3>
 	<?endif;?>
 	<div class="news-detail">
+        <? CUtil::InitJSCore();?>
         <?if($arParams["DISPLAY_AJAX_COMPLAINTS"] == "N"):?>
             <a href="<?=$APPLICATION->GetCurPage()?>?ELEMENT_ID=<?=$arResult["ID"]?>&ADD=TRUE">ПОЖАЛОВАТЬСЯ!</a>
         <?else:?>
-            <? CUtil::InitJSCore();?>
+
             <a href="#" onclick="BX.ajax({
                         url: '<?=$templateFolder.'/ajax.php';?>',
                         data: {'el_id': '<?=$arResult["ID"]?>'},
@@ -44,16 +42,8 @@ if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
                 ПОЖАЛОВАТЬСЯ!
             </a>
         <?endif;?>
-        <div id="complaint">
+        <div id="complaint">#COMPLAINT_AREA_<?=$arResult["ID"]?>#</div>
 
-                <?
-                if($_GET["ADD"] == "TRUE")
-                {
-                    echo "#COMPLAINT_AREA_{$arResult["ID"]}#";
-                }
-                ?>
-
-        </div>
         <br><br>
 
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
@@ -87,9 +77,7 @@ if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
 	</div>
 </div>
 <?
-if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
-{
     $this->__component->arResult["CACHED_TPL"] = @ob_get_contents();
     ob_get_clean();
-}
 ?>
+
