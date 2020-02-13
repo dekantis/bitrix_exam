@@ -18,6 +18,7 @@ $APPLICATION->SetTitle("Новости");
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 		"CHECK_DATES" => "Y",
+		"COMPONENT_TEMPLATE" => ".default",
 		"DETAIL_ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"DETAIL_DISPLAY_BOTTOM_PAGER" => "Y",
 		"DETAIL_DISPLAY_TOP_PAGER" => "N",
@@ -79,7 +80,7 @@ $APPLICATION->SetTitle("Новости");
 		"USE_REVIEW" => "N",
 		"USE_RSS" => "N",
 		"USE_SEARCH" => "N",
-		"COMPONENT_TEMPLATE" => ".default",
+		"DISPLAY_AJAX_COMPLAINTS" => "Y",
 		"VARIABLE_ALIASES" => array(
 			"SECTION_ID" => "SECTION_ID",
 			"ELEMENT_ID" => "ELEMENT_ID",

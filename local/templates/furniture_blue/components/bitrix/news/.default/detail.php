@@ -1,4 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+
 <?$ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
 	"",
@@ -33,12 +34,15 @@
 		"PAGER_SHOW_ALL" => $arParams["DETAIL_PAGER_SHOW_ALL"],
 		"CHECK_DATES" => $arParams["CHECK_DATES"],
 
+		"DISPLAY_AJAX_COMPLAINTS" => $arParams["DISPLAY_AJAX_COMPLAINTS"],
+
 		"ELEMENT_ID" => $arResult["VARIABLES"]["ELEMENT_ID"],
 		"ELEMENT_CODE" => $arResult["VARIABLES"]["ELEMENT_CODE"],
 		"IBLOCK_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["news"],
 	),
 	$component
-);?>
+);
+?>
 <p><a href="<?=$arResult["FOLDER"].$arResult["URL_TEMPLATES"]["news"]?>">&larr; <?=GetMessage("T_NEWS_DETAIL_BACK")?></a></p>
 <?if($arParams["USE_RATING"]=="Y" && $ElementID):?>
 <?$APPLICATION->IncludeComponent(

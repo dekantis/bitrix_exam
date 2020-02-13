@@ -1,4 +1,10 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?
+if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
+{
+    ob_start();
+}
+?>
 <div class="news-detail">
 	<?if($arParams["DISPLAY_PICTURE"]!="N" && is_array($arResult["DETAIL_PICTURE"])):?>
 		<img class="detail_picture" border="0" src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" width="<?=$arResult["DETAIL_PICTURE"]["WIDTH"]?>" height="<?=$arResult["DETAIL_PICTURE"]["HEIGHT"]?>" alt="<?=$arResult["NAME"]?>"  title="<?=$arResult["NAME"]?>" />
@@ -7,9 +13,49 @@
 		<div class="news-date"><?=$arResult["DISPLAY_ACTIVE_FROM"]?></div>
 	<?endif;?>
 	<?if($arParams["DISPLAY_NAME"]!="N" && $arResult["NAME"]):?>
-		<h3><?=$arResult["NAME"]?></h3>
+		<h3><?=$arResult["NAME"];?></h3>
 	<?endif;?>
 	<div class="news-detail">
+        <?if($arParams["DISPLAY_AJAX_COMPLAINTS"] == "N"):?>
+            <a href="<?=$APPLICATION->GetCurPage()?>?ELEMENT_ID=<?=$arResult["ID"]?>&ADD=TRUE">ПОЖАЛОВАТЬСЯ!</a>
+        <?else:?>
+            <? CUtil::InitJSCore();?>
+            <a href="#" onclick="BX.ajax({
+                        url: '<?=$templateFolder.'/ajax.php';?>',
+                        data: {'el_id': '<?=$arResult["ID"]?>'},
+                        method: 'POST',
+                        dataType: 'html',
+                        timeout: 30,
+                        async: true,
+                        processData: true,
+                        scriptsRunFirst: true,
+                        emulateOnload: true,
+                        start: true,
+                        cache: false,
+                        onsuccess: function(data)
+                        {
+                            document.getElementById('complaint').innerHTML = data;
+                        },
+                        onfailure: function()
+                        {
+                            document.getElementById('complaint').innerHTML = 'Ошибка!';
+                        }
+                    });">
+                ПОЖАЛОВАТЬСЯ!
+            </a>
+        <?endif;?>
+        <div id="complaint">
+
+                <?
+                if($_GET["ADD"] == "TRUE")
+                {
+                    echo "#COMPLAINT_AREA_{$arResult["ID"]}#";
+                }
+                ?>
+
+        </div>
+        <br><br>
+
 	<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arResult["FIELDS"]["PREVIEW_TEXT"]):?>
 		<p><?=$arResult["FIELDS"]["PREVIEW_TEXT"];unset($arResult["FIELDS"]["PREVIEW_TEXT"]);?></p>
 	<?endif;?>
@@ -40,3 +86,10 @@
 	<?endforeach;?>
 	</div>
 </div>
+<?
+if ($_GET["ADD"] == "TRUE" && $arParams["DISPLAY_AJAX_COMPLAINTS"] == "N")
+{
+    $this->__component->arResult["CACHED_TPL"] = @ob_get_contents();
+    ob_get_clean();
+}
+?>
